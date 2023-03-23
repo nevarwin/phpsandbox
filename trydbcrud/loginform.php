@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="login">
         <h1 class="text-center">Please Login!</h1>
-        <form class="needs-validation">
+        <form class="needs-validation" method="POST">
             <div class="form-group was-validated">
                 <label class="form-label" for="email">Email address</label>
                 <input class="form-control" name="email" type="email" id="email" required>
