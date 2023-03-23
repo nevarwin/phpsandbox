@@ -1,3 +1,11 @@
+<?php
+session_start();
+include("connection.php");
+include("function.php");
+
+$user_data = check_login($con);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +55,12 @@
                     <a href="#">
                         <span class="icon"><ion-icon name="settings-outline"> </ion-icon>
                         </span>
-                        <span class="title">Settings</span>
+                        <span class="title">
+                            <?php
+                            echo $user_data['name'];
+                            ?>
+                            Settings
+                        </span>
                     </a>
                 </li>
 
@@ -59,7 +72,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="signout.php">
                         <span class="icon"><ion-icon name="log-in-outline"></ion-icon>
                         </span>
                         <span class="title">Sign out</span>
