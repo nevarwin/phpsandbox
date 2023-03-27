@@ -203,8 +203,8 @@ $user_data = check_login($con);
                         <td>$row->municipality</td>
                         <td>$row->created_at</td>
                         <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editAdmin.php?id=$row->id'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deleteAdmin.php?id=$row->id'>Delete</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editAdmin.php?id=$row->id'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deleteAdmin.php?id=$row->id'>Delete</a>
                         </td>
                         </tr>
                     ";
