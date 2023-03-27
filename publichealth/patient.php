@@ -48,7 +48,7 @@ $user_data = check_login($con);
                     <a href="#">
                         <span class="icon"><ion-icon name="cube-outline"></ion-icon>
                         </span>
-                        <span class="title">Tables</span>
+                        <span class="title">Patients</span>
                     </a>
                 </li>
                 <li>
@@ -100,7 +100,7 @@ $user_data = check_login($con);
         </div>
         <!-- cards -->
         <div class="cardBox">
-            <div class="card1">
+            <!-- <div class="card1">
                 <div>
                     <div class="numbers">
                         <?php
@@ -108,7 +108,7 @@ $user_data = check_login($con);
                         $servername = 'localhost';
                         $username = 'root';
                         $password = '123';
-                        $database = 'trydb';
+                        $database = 'publichealthdb';
 
                         //create connection to the database
                         $conn = new mysqli($servername, $username, $password, $database);
@@ -124,7 +124,7 @@ $user_data = check_login($con);
                     <div class="cardName">Admins</div>
                 </div>
                 <div class="iconBx"><ion-icon name="person-outline"></ion-icon></div>
-            </div>
+            </div> -->
             <div class="card1">
                 <div>
                     <div class="numbers">5</div>
@@ -149,7 +149,7 @@ $user_data = check_login($con);
         </div>
         <div class="container my-5">
             <h2>List of Item in DB</h2>
-            <a href="/phpsandbox/trydbcrud/create.php" class='btn btn-primary' role="button">New Item in DB</a>
+            <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">New Item in DB</a>
             <br>
             <table class='table'>
                 <thead>
@@ -203,8 +203,8 @@ $user_data = check_login($con);
                         <td>$row->municipality</td>
                         <td>$row->created_at</td>
                         <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/trydbcrud/edit.php?id=$row->id'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/trydbcrud/delete.php?id=$row->id'>Delete</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editAdmin.php?id=$row->id'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deleteAdmin.php?id=$row->id'>Delete</a>
                         </td>
                         </tr>
                     ";

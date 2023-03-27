@@ -1,5 +1,10 @@
 <?php
-include("connection.php");
+// include("connection.php");
+$servername = 'localhost';
+$username = 'root';
+$password = '123';
+$database = 'publichealthdb';
+
 
 //create connection to the database
 $conn = new mysqli($servername, $username, $password, $database);
@@ -12,15 +17,15 @@ if ($conn->connect_error) {
 
 // read all the data from db table
 // $sql = "SELECT * FROM clients";
-$sql = "SELECT barangay
-        FROM barangay";
-$result = $conn->query($sql);
+// $sql = "SELECT barangay FROM barangay";
+// $result = $conn->query($sql);
 
 // check if there is data in the table
-if (!$result) {
-    die('Invalid Query: ' . $conn->error);
-}
-// $mysqli->close();
+// if (!$result) {
+//     die('Invalid Query: ' . $conn->error);
+// }
+// // $mysqli->close();
+// 
 ?>
 
 
@@ -64,13 +69,13 @@ if (!$result) {
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <?php
-            $sql = "SELECT barangay FROM barangay";
+            $sql = "SELECT barangay FROM barangay WHERE barangay = 'wawa'";
             $results = $conn->query($sql);
             if ($results->num_rows) {
                 while ($row = $results->fetch_object()) {
                     echo "
                         <a class='dropdown-item' href='#'>
-                        {$row->barangay}
+                        $row->barangay
                         </a>";
                 }
             }

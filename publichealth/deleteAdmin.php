@@ -14,8 +14,8 @@ if (isset($_GET['id'])) {
     }
 
     $sql = "DELETE FROM clients WHERE id = $id";
-    $conn->query($sql);
+    mysqli_query($con, $sql);
 
-    header('location: /phpsandbox/trydbcrud/index.php');
+    header('location: /phpsandbox/publichealth/index.php');
     exit;
 }

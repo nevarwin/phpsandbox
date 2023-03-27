@@ -7,6 +7,8 @@ include("connection.php");
 $id = '';
 $name = '';
 $email = '';
+$password = '';
+$confirmPassword = '';
 $contact = '';
 $address = '';
 
@@ -16,7 +18,7 @@ $successMessage = '';
 // if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //GET Method: show the data of the client
 if (!isset($_GET["id"])) {
-    header('location: /phpsandbox/trydbcrud/index.php');
+    header('location: /phpsandbox/publichealthd/index.php');
     exit;
 }
 
@@ -28,29 +30,36 @@ $result = mysqli_query($con, $sql);
 $row = $result->fetch_assoc();
 
 if (!$row) {
-    header('location: /phpsandbox/trydbcrud/index.php');
+    header('location: /phpsandbox/publichealth/index.php');
     exit;
 }
 
 $name = $row['name'];
 $email = $row['email'];
+$password = $row['password'];
 $contact = $row['contact_number'];
 $address = $row['address'];
 // POST Method: Update the data of the client
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirmPassword'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
 
     // check if the data is empty
     do {
-        if (empty($name) or empty($email) or empty($contact) or empty($address)) {
+        if (empty($name) or empty($email) or empty($password) or empty($confirmPassword) or empty($contact) or empty($address)) {
             $errorMessage = "All fields are required";
             break;
         }
+        if ($password != $confirmPassword) {
+            $errorMessage = "Password and Confirm Password must be the same";
+            break;
+        }
         // update data into the db
-        $sql = "UPDATE `clients` SET `name` = '$name', `email` = '$email', `contact_number` = '$contact', `address` = '$address' WHERE id = $id";
+        $sql = "UPDATE `clients` SET `name` = '$name', `email` = '$email',`password` = '$password', `contact_number` = '$contact', `address` = '$address' WHERE id = $id";
 
         if ($con->query($sql) === TRUE) {
             echo "Record updated successfully";
@@ -59,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Error updating record: " . $conn->error;
         }
 
-        header("location: /phpsandbox/trydbcrud/index.php");
+        header("location: /phpsandbox/publichealth/index.php");
         $con->close();
     } while (false);
 }
@@ -106,9 +115,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             <div class="row mb-3">
+                <label for="" class='col-sm-3 col-form-label'>Password</label>
+                <div class="col-sm-6">
+                    <input type="password" class='form-control' name='password' value='<?php echo $password; ?>'>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="" class='col-sm-3 col-form-label'>Confirm Password</label>
+                <div class="col-sm-6">
+                    <input type="password" class='form-control' name='confirmPassword' value='<?php echo $confirmPassword; ?>'>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <label for="" class='col-sm-3 col-form-label'>Contact Number</label>
                 <div class="col-sm-6">
                     <input type="text" class='form-control' name='contact' value='<?php echo $contact; ?>'>
+                </div>
+            </div>
+            <!-- Municipality Dropdown -->
+            <div class="row mb-3">
+                <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
+                <div class="col-sm-6">
+                    <select class="form-select" id="municipality">
+                        <option>Select Municipality</option>
+                        <?php
+                        $sql = "SELECT municipality FROM municipality";
+                        $results = mysqli_query($con, $sql);
+                        if ($results->num_rows) {
+                            while ($row = $results->fetch_object()) {
+                                echo " 
+                                    <option value='$row->municipality'>
+                                        $row->municipality
+                                    </option>
+                                ";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <!-- Barangay Dropdown -->
+            <div class="row mb-3">
+                <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
+                <div class="col-sm-6">
+                    <select class="form-select" id="barangay-dropdown">
+                        <option>Select Barangay</option>v
+                        <?php
+                        $sql = "SELECT barangay FROM barangay";
+                        $results = mysqli_query($con, $sql);
+                        if ($results->num_rows) {
+                            while ($row = $results->fetch_object()) {
+                                echo " 
+                                    <option value='$row->barangay'>
+                                        $row->barangay
+                                    </option>
+                                ";
+                            }
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
             <div class="row mb-3">
@@ -117,6 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="text" class='form-control' name='address' value='<?php echo $address; ?>'>
                 </div>
             </div>
+
 
             <?php
             if (!empty($successMessage)) {
@@ -137,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="submit" class='btn btn-primary'>Submit</button>
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <a href="/phpsandbox/trydbcrud/index.php" class="btn btn-outline-primary" role="button">Cancel</a>
+                    <a href="/phpsandbox/publichealth/index.php" class="btn btn-outline-primary" role="button">Cancel</a>
                 </div>
             </div>
     </div>
