@@ -149,7 +149,7 @@ $user_data = check_login($con);
         </div>
         <div class="container my-5">
             <h2>List of Item in DB</h2>
-            <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">New Item in DB</a>
+            <a href="/phpsandbox/publichealth/createPatient.php" class='btn btn-primary' role="button">New Item in DB</a>
             <br>
             <table class='table'>
                 <thead>
@@ -183,7 +183,7 @@ $user_data = check_login($con);
                     $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
                     FROM clients
                     LEFT JOIN barangay ON clients.barangay = barangay.id 
-                    LEFT JOIN municipality ON clients.municipality = municipality.id";
+                    LEFT JOIN municipality ON clients.municipality = municipality.munId";
                     $result = $conn->query($sql);
 
                     // check if there is data in the table
