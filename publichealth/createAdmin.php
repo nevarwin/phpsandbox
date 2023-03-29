@@ -108,19 +108,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="municipality">
-                        <option>Select Municipality</option>
+                    <select class="form-select" id="municipality" onchange="updateBarangays()">
+                        <option value="">Select municipality</option>
                         <?php
-                        $sql = "SELECT municipality FROM municipality";
-                        $results = mysqli_query($con, $sql);
-                        if ($results->num_rows) {
-                            while ($row = $results->fetch_object()) {
-                                echo " 
-                                    <option value='$row->municipality'>
-                                        $row->municipality
-                                    </option>
-                                ";
-                            }
+                        // Connect to database and fetch municipalities
+                        $dbhost = "localhost";
+                        $dbuser = "root";
+                        $dbpass = "123";
+                        $dbname = "publichealthdb";
+
+                        $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+                        $result = mysqli_query($conn, 'SELECT * FROM municipality');
+
+                        // Display each municipalities in a dropdown option
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
                         }
                         ?>
                     </select>
@@ -130,21 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="barangay-dropdown">
-                        <option>Select Barangay</option>v
-                        <?php
-                        $sql = "SELECT barangay FROM barangay";
-                        $results = mysqli_query($con, $sql);
-                        if ($results->num_rows) {
-                            while ($row = $results->fetch_object()) {
-                                echo " 
-                                    <option value='$row->barangay'>
-                                        $row->barangay
-                                    </option>
-                                ";
-                            }
-                        }
-                        ?>
+                    <select class="form-select" id="barangay">
+                        <option>Select Barangay</option>
                     </select>
                 </div>
             </div>
@@ -181,6 +170,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateBarangays() {
+            const municipalitySelect = document.getElementById('municipality');
+            const barangaySelect = document.getElementById('barangay');
+            const selectedMunicipality = municipalitySelect.value;
+
+            // Clear barangay dropdown
+            barangaySelect.innerHTML = '';
+
+            if (selectedMunicipality) {
+                // Fetch barangays for selected country using AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        const barangays = JSON.parse(this.responseText);
+
+                        // Populate barangay dropdown
+                        barangays.forEach(function(barangay) {
+                            const option = document.createElement('option');
+                            option.text = barangay.barangay;
+                            option.value = barangay.muncityId;
+                            barangaySelect.add(option);
+                        });
+                    }
+                };
+                xhr.open('GET', 'get_barangay.php?municipality=' + selectedMunicipality, true);
+                xhr.send();
+            }
+        }
+    </script>
 </body>
 
 </html>
