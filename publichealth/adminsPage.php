@@ -153,7 +153,7 @@ $user_data = check_login($con);
                     $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
                     FROM clients
                     LEFT JOIN barangay ON clients.barangay = barangay.id 
-                    LEFT JOIN municipality ON clients.municipality = municipality.id";
+                    LEFT JOIN municipality ON clients.municipality = municipality.munId";
                     $result = $conn->query($sql);
 
                     // check if there is data in the table

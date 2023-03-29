@@ -48,7 +48,7 @@ $user_data = check_login($con);
                     <a href="patient.php">
                         <span class="icon"><ion-icon name="cube-outline"></ion-icon>
                         </span>
-                        <span class="title">Patient</span>
+                        <span class="title">Patients</span>
                     </a>
                 </li>
                 <li>
@@ -183,7 +183,7 @@ $user_data = check_login($con);
                     $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
                     FROM clients
                     LEFT JOIN barangay ON clients.barangay = barangay.id 
-                    LEFT JOIN municipality ON clients.municipality = municipality.id";
+                    LEFT JOIN municipality ON clients.municipality = municipality.munId";
                     $result = $conn->query($sql);
 
                     // check if there is data in the table
