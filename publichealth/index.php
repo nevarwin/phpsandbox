@@ -13,7 +13,7 @@ $user_data = check_login($con);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try DB CRUD</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
@@ -117,8 +117,8 @@ $user_data = check_login($con);
                         $result = $conn->query($adminCountSql);
                         $adminCount = mysqli_num_rows($result);
                         echo "
-                        $adminCount
-                        ";
+                            $adminCount
+                            ";
                         ?>
                     </div>
                     <div class="cardName">Admins</div>
@@ -148,7 +148,7 @@ $user_data = check_login($con);
             </div>
         </div>
         <div class="container my-5">
-            <h2>List of Item in DB</h2>
+            <h2>Dashboard</h2>
             <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">New Item in DB</a>
             <br>
             <table class='table'>
@@ -162,7 +162,6 @@ $user_data = check_login($con);
                         <th>Barangay</th>
                         <th>Municipality</th>
                         <th>Created At</th>
-                        <th>Action</th>
 
                     </tr>
                 </thead>
@@ -202,10 +201,6 @@ $user_data = check_login($con);
                         <td>$row->barangay</td>
                         <td>$row->municipality</td>
                         <td>$row->created_at</td>
-                        <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editAdmin.php?id=$row->id'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deleteAdmin.php?id=$row->id'>Delete</a>
-                        </td>
                         </tr>
                     ";
                     }
