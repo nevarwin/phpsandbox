@@ -18,18 +18,20 @@ $successMessage = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $municipality = $_POST['municipality'];
+    $barangay = $_POST['barangay'];
     $password = $_POST['password'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
 
     // check if the data is empty
     do {
-        if (empty($name) or empty($email) or empty($password) or empty($contact) or empty($address)) {
+        if (empty($name) or empty($email) or empty($password) or empty($contact) or empty($address) or empty($municipality) or empty($barangay)) {
             $errorMessage = "All fields are required";
             break;
         }
         // added new data into the db
-        $sql = "INSERT INTO clients(`name`, `email`, `password`, `contact_number`, `address`) VALUES ('$name', '$email', '$password' , '$contact', '$address')";
+        $sql = "INSERT INTO clients(`name`, `email`, `municipality`, `barangay`, `password`, `contact_number`, `address`) VALUES ('$name', '$email', '$municipality','$barangay','$password' , '$contact', '$address')";
         $result = mysqli_query($con, $sql);
 
         if (!$result) {
@@ -108,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="municipality" onchange="updateBarangays()">
+                    <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
                         <option value="">Select municipality</option>
                         <?php
                         // Connect to database and fetch municipalities
@@ -132,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="barangay">
+                    <select class="form-select" id="barangay" name="barangay">
                         <option>Select Barangay</option>
                     </select>
                 </div>
