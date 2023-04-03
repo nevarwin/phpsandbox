@@ -38,14 +38,14 @@ $user_data = check_login($con);
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminsPage.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
                         </span>
                         <span class="title">Admins</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="patient.php">
                         <span class="icon"><ion-icon name="cube-outline"></ion-icon>
                         </span>
                         <span class="title">Patients</span>
@@ -127,8 +127,18 @@ $user_data = check_login($con);
             </div> -->
             <div class="card1">
                 <div>
-                    <div class="numbers">5</div>
-                    <div class="cardName">Dengue</div>
+                    <div class="numbers">
+                        <?php
+                        include("connection.php");
+                        $dengueCount = "SELECT * from patients WHERE disease = 13";
+                        $result = $conn->query($dengueCount);
+                        $dengueCases = mysqli_num_rows($result);
+                        echo "
+                            $dengueCases
+                        ";
+                        ?>
+                    </div>
+                    <div class="cardName">Rabies</div>
                 </div>
                 <div class="iconBx"><ion-icon name="medical-outline"></ion-icon></div>
             </div>
@@ -148,63 +158,58 @@ $user_data = check_login($con);
             </div>
         </div>
         <div class="container my-5">
-            <h2>List of Item in DB</h2>
+            <h2>Patients</h2>
             <a href="/phpsandbox/publichealth/createPatient.php" class='btn btn-primary' role="button">New Item in DB</a>
             <br>
             <table class='table'>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Disease</th>
+                        <th>Outcome</th>
+                        <th>Date of Birth</th>
+                        <th>Age</th>
                         <th>Barangay</th>
                         <th>Municipality</th>
-                        <th>Created At</th>
-                        <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     include("connection.php");
-
-                    //create connection to the database
-                    $conn = new mysqli($servername, $username, $password, $database);
-
-                    //check connection
-                    if ($conn->connect_error) {
-                        // die equivalent to exit
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-
                     // read all the data from db table
-                    $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
-                    FROM clients
-                    LEFT JOIN barangay ON clients.barangay = barangay.id 
-                    LEFT JOIN municipality ON clients.municipality = municipality.munId";
-                    $result = $conn->query($sql);
+                    $sql = "SELECT *
+                    FROM patients
+                    LEFT JOIN barangay ON patients.barangay = barangay.id
+                    LEFT JOIN municipality ON patients.municipality = municipality.munId
+                    LEFT JOIN diseases ON patients.disease = diseases.diseaseId
+                    LEFT JOIN outcomes ON patients.outcome = outcomes.outcomeId
+                    LEFT JOIN genders ON patients.gender = genders.genderId
+                    ";
+
+                    $result = $con->query($sql);
 
                     // check if there is data in the table
                     if (!$result) {
-                        die('Invalid Query: ' . $conn->error);
+                        die('Invalid Query: ' . $con->error);
                     }
 
                     while ($row = $result->fetch_object()) {
                         echo "
                         <tr>
-                        <td>$row->id</td>
-                        <td>$row->name</td>
-                        <td>$row->email</td>
-                        <td>$row->contact_number</td>
-                        <td>$row->address</td>
+                        <td>$row->firstName</td>
+                        <td>$row->lastName</td>
+                        <td>$row->gender</td>
+                        <td>$row->disease</td>
+                        <td>$row->outcome</td>
+                        <td>$row->dob</td>
+                        <td>$row->age</td>
                         <td>$row->barangay</td>
                         <td>$row->municipality</td>
-                        <td>$row->created_at</td>
                         <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editAdmin.php?id=$row->id'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deleteAdmin.php?id=$row->id'>Delete</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editPatient.php?id=$row->patientId'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deletePatient.php?id=$row->patientId'>Delete</a>
                         </td>
                         </tr>
                     ";
