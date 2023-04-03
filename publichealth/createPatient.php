@@ -4,11 +4,14 @@ include("connection.php");
 //create connection to the database
 // $conn = new mysqli($servername, $username, $password, $database);
 
-$name = '';
-$email = '';
-$password = '';
+// patient name
+$fName = '';
+$lName = '';
+$mName = '';
+
 $contact = '';
 $address = '';
+$addressDRU = '';
 
 $errorMessage = '';
 $successMessage = '';
@@ -16,20 +19,34 @@ $successMessage = '';
 // check if the form is submitted using the post method
 // initialize data above into the post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+
+
+    // get the data from the Form
+    $fName = $_POST['fName'];
+    $lName = $_POST['lName'];
+    $mName = $_POST['mName'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $municipality = $_POST['municipality'];
+    $barangay = $_POST['barangay'];
+    $municipalityDRU = $_POST['municipalityDRU'];
+    $barangayDRU = $_POST['barangayDRU'];
+    $disease = $_POST['disease'];
+    $outcome = $_POST['outcome'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
+    $addressDRU = $_POST['addressDRU'];
+    $dateDied = $_POST['dateDied'];
+    $currentDate = date("Y-m-d H:i:s");
 
     // check if the data is empty
     do {
-        if (empty($name) or empty($email) or empty($password) or empty($contact) or empty($address)) {
+        if (empty($fName) or empty($lName) or empty($municipality) or empty($barangay) or empty($municipalityDRU) or empty($barangayDRU) or empty($disease) or empty($outcome) or empty($contact) or empty($address) or empty($gender)) {
             $errorMessage = "All fields are required";
             break;
         }
         // added new data into the db
-        $sql = "INSERT INTO clients(`name`, `email`, `password`, `contact_number`, `address`) VALUES ('$name', '$email', '$password' , '$contact', '$address')";
+        $sql = "INSERT INTO patients(creationDate,`firstName`, `lastName`, `middleName`, `munCityOfDRU`, `addressOfDRU`, `age`,  `gender`, `dob`, `municipality`, `barangay`, `address`, `disease`, `outcome`, `dateDied`) VALUES ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU', '$age_in_years','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease', '$outcome', '$dateDied')";
         $result = mysqli_query($con, $sql);
 
         if (!$result) {
@@ -66,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <div class="container my-5">
+    <div class="container my-5 ms-5">
         <h2>New Patient</h2>
 
         <?php
@@ -79,37 +96,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ";
         }
         ?>
+        <!-- Name Form Group -->
         <form action="" method="post">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Patient Name</span>
+                <input placeholder="Last Name" type="text" class='form-control' name='lName' value='<?php echo $fName; ?>'>
+                <input placeholder="First Name" type="text" class='form-control' name='fName' value='<?php echo $lName; ?>'>
+                <input placeholder="Middle Name" type="text" class='form-control' name='mName' value='<?php echo $mName; ?>'>
+            </div>
+
+            <!-- Gender Dropdown -->
             <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Last Name</label>
+                <label class='col-sm-3 col-form-label' for="gender">Gender</label>
                 <div class="col-sm-6">
-                    <input type="text" class='form-control' name='name' value='<?php echo $name; ?>'>
+                    <select class="form-select" id="gender" name="gender">
+                        <option value="">Select gender</option>
+                        <?php
+                        // Connect to database and fetch municipalities
+                        include("connection.php");
+                        $result = mysqli_query($con, 'SELECT * FROM genders');
+
+                        // Display each municipalities in a dropdown option
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<option value="' . $row['genderId'] . '">' . $row['gender'] . '</option>';
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
+
+            <!-- DOB -->
             <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>First Name</label>
+                <label for="" class='col-sm-3 col-form-label'>Date of Birthday</label>
                 <div class="col-sm-6">
-                    <input type="text" class='form-control' name='name' value='<?php echo $name; ?>'>
+                    <input type="date" class='form-control' name='dob' id="dob" onchange="calculateAge()" value=''>
                 </div>
             </div>
+            <!-- Age minus the DOB -->
             <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Middle Name</label>
+                <label for="" class='col-sm-3 col-form-label'>Age</label>
                 <div class="col-sm-6">
-                    <input type="text" class='form-control' name='name' value='<?php echo $name; ?>'>
+                    <input type="number" class='form-control' id="age" name='age' disabled>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Email</label>
-                <div class="col-sm-6">
-                    <input type="text" class='form-control' name='email' value='<?php echo $email; ?>'>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Password</label>
-                <div class="col-sm-6">
-                    <input type="password" class='form-control' name='password' value='<?php echo $password; ?>'>
-                </div>
-            </div>
+            <!-- Contact Number -->
             <div class="row mb-3">
                 <label for="" class='col-sm-3 col-form-label'>Contact Number</label>
                 <div class="col-sm-6">
@@ -117,42 +147,106 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             <!-- Municipality Dropdown -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">Municipality</span>
+                <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
+                    <option value="">Select municipality</option>
+                    <?php
+                    // Connect to database and fetch municipalities
+                    include("connection.php");
+                    $result = mysqli_query($con, 'SELECT * FROM municipality');
+
+                    // Display each municipalities in a dropdown option
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
+                    }
+                    ?>
+                </select>
+                <!-- Barangay Dropdown -->
+                <span class="input-group-text">Barangay</span>
+                <select class="form-select" id="barangay" name="barangay">
+                    <option>Select Barangay</option>
+                </select>
+            </div>
+            <!-- Address -->
             <div class="row mb-3">
-                <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
+                <label for="" class='col-sm-3 col-form-label'>Address</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="municipality" onchange="updateBarangays()">
-                        <option value="">Select municipality</option>
+                    <input placeholder="Address" type="text" class='form-control' name='address' value='<?php echo $address; ?>'>
+                </div>
+            </div>
+            <!-- Municipality of DRU Dropdown -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">Municipality of DRU</span>
+                <select class="form-select" id="municipalityDRU" onchange="updateBarangaysDRU()" name="municipalityDRU">
+                    <option value="">Select municipality of DRU</option>
+                    <?php
+                    // Connect to database and fetch municipalities
+                    include("connection.php");
+                    $result = mysqli_query($con, 'SELECT * FROM municipality');
+
+                    // Display each municipalities in a dropdown option
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
+                    }
+                    ?>
+                </select>
+                <!-- Barangay of DRU Dropdown -->
+                <span class="input-group-text">Barangay of DRU</span>
+                <select class="form-select" id="barangayDRU" name="barangayDRU">
+                    <option>Select Barangay of DRU</option>
+                </select>
+            </div>
+            <!-- Address of DRU -->
+            <div class="row mb-3">
+                <label for="" class='col-sm-3 col-form-label'>Address of DRU</label>
+                <div class="col-sm-6">
+                    <input placeholder="Address of DRU" type="text" class='form-control' name='addressDRU' value='<?php echo $addressDRU; ?>'>
+                </div>
+            </div>
+            <!-- Disease Dropdown -->
+            <div class="row mb-3">
+                <label class='col-sm-3 col-form-label' for="disease">Disease</label>
+                <div class="col-sm-6">
+                    <select class="form-select" id="disease" name="disease">
+                        <option value="">Select Disease</option>
                         <?php
                         // Connect to database and fetch municipalities
-                        $dbhost = "localhost";
-                        $dbuser = "root";
-                        $dbpass = "123";
-                        $dbname = "publichealthdb";
-
-                        $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-                        $result = mysqli_query($conn, 'SELECT * FROM municipality');
+                        include("connection.php");
+                        $result = mysqli_query($con, 'SELECT * FROM diseases');
 
                         // Display each municipalities in a dropdown option
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
+                            echo '<option value="' . $row['diseaseId'] . '">' . $row['disease'] . '</option>';
                         }
                         ?>
                     </select>
                 </div>
             </div>
-            <!-- Barangay Dropdown -->
+            <!-- Outcome Dropdown -->
             <div class="row mb-3">
-                <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
+                <label class='col-sm-3 col-form-label' for="outcome">Outcome</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="barangay">
-                        <option>Select Barangay</option>
+                    <select class="form-select" id="outcome" name="outcome">
+                        <option value="">Select Outcome</option>
+                        <?php
+                        // Connect to database and fetch municipalities
+                        include("connection.php");
+                        $result = mysqli_query($con, 'SELECT * FROM outcomes');
+
+                        // Display each municipalities in a dropdown option
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<option value="' . $row['outcomeId'] . '">' . $row['outcome'] . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
+            <!-- DateDied -->
             <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Address</label>
+                <label for="" class='col-sm-3 col-form-label'>Date Died</label>
                 <div class="col-sm-6">
-                    <input type="text" class='form-control' name='address' value='<?php echo $address; ?>'>
+                    <input type="date" class='form-control' name='dateDied' value='<?php echo $dateDied; ?>'>
                 </div>
             </div>
 
@@ -175,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="submit" class='btn btn-primary'>Submit</button>
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <a href="/phpsandbox/publichealth/index.php" class="btn btn-outline-primary" role="button">Cancel</a>
+                    <a href="/phpsandbox/publichealth/patient.php" class="btn btn-outline-primary" role="button">Cancel</a>
                 </div>
             </div>
     </div>
@@ -191,6 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Clear barangay dropdown
             barangaySelect.innerHTML = '';
 
+
             if (selectedMunicipality) {
                 // Fetch barangays for selected country using AJAX
                 const xhr = new XMLHttpRequest();
@@ -204,6 +299,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             option.text = barangay.barangay;
                             option.value = barangay.muncityId;
                             barangaySelect.add(option);
+
+                        });
+                    }
+                };
+                xhr.open('GET', 'get_barangay.php?municipality=' + selectedMunicipality, true);
+                xhr.send();
+            }
+        }
+
+        function updateBarangaysDRU() {
+            const municipalitySelect = document.getElementById('municipalityDRU');
+            const barangayDRUSelect = document.getElementById('barangayDRU');
+            const selectedMunicipality = municipalitySelect.value;
+
+            // Clear barangay dropdown
+            barangayDRUSelect.innerHTML = '';
+
+            if (selectedMunicipality) {
+                // Fetch barangays for selected country using AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        const barangays = JSON.parse(this.responseText);
+
+                        // Populate barangay dropdown
+                        barangays.forEach(function(barangay) {
+                            const option = document.createElement('option');
+                            option.text = barangay.barangay;
+                            option.value = barangay.muncityId;
+                            barangayDRUSelect.add(option);
                         });
                     }
                 };
@@ -212,6 +337,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     </script>
+
 </body>
 
 </html>
