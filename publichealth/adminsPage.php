@@ -48,7 +48,7 @@ $user_data = check_login($con);
                     <a href="patient.php">
                         <span class="icon"><ion-icon name="cube-outline"></ion-icon>
                         </span>
-                        <span class="title">Patient</span>
+                        <span class="title">Patients</span>
                     </a>
                 </li>
                 <li>
@@ -118,13 +118,12 @@ $user_data = check_login($con);
             </div>
         </div>
         <div class="container my-5">
-            <h2>List of Item in DB</h2>
+            <h2>Admins</h2>
             <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">New Item in DB</a>
             <br>
             <table class='table'>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Contact Number</th>
@@ -164,7 +163,6 @@ $user_data = check_login($con);
                     while ($row = $result->fetch_object()) {
                         echo "
                         <tr>
-                        <td>$row->id</td>
                         <td>$row->name</td>
                         <td>$row->email</td>
                         <td>$row->contact_number</td>
@@ -173,8 +171,8 @@ $user_data = check_login($con);
                         <td>$row->municipality</td>
                         <td>$row->created_at</td>
                         <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editAdmin.php?id=$row->id'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deleteAdmin.php?id=$row->id'>Delete</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editAdmin.php?id=$row->id'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deleteAdmin.php?id=$row->id'>Delete</a>
                         </td>
                         </tr>
                     ";
