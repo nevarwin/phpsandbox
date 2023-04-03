@@ -8,7 +8,6 @@ $id = '';
 $name = '';
 $email = '';
 $password = '';
-$confirmPassword = '';
 $contact = '';
 $address = '';
 
@@ -44,20 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
 
     // check if the data is empty
     do {
-        if (empty($name) or empty($email) or empty($password) or empty($confirmPassword) or empty($contact) or empty($address)) {
+        if (empty($name) or empty($email) or empty($password)  or empty($contact) or empty($address)) {
             $errorMessage = "All fields are required";
             break;
         }
-        if ($password != $confirmPassword) {
-            $errorMessage = "Password and Confirm Password must be the same";
-            break;
-        }
+        // if ($password != $confirmPassword) {
+        //     $errorMessage = "Password and Confirm Password must be the same";
+        //     break;
+        // }
         // update data into the db
         $sql = "UPDATE `clients` SET `name` = '$name', `email` = '$email',`password` = '$password', `contact_number` = '$contact', `address` = '$address' WHERE id = $id";
 
@@ -65,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Record updated successfully";
             $successMessage = "Client added correctly";
         } else {
-            echo "Error updating record: " . $conn->error;
+            echo "Error updating record: ";
         }
 
         header("location: /phpsandbox/publichealth/index.php");
@@ -120,12 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="password" class='form-control' name='password' value='<?php echo $password; ?>'>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Confirm Password</label>
-                <div class="col-sm-6">
-                    <input type="password" class='form-control' name='confirmPassword' value='<?php echo $confirmPassword; ?>'>
-                </div>
-            </div>
+
             <div class="row mb-3">
                 <label for="" class='col-sm-3 col-form-label'>Contact Number</label>
                 <div class="col-sm-6">
@@ -159,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
                 <div class="col-sm-6">
                     <select class="form-select" id="barangay-dropdown">
-                        <option>Select Barangay</option>v
+                        <option>Select Barangay</option>
                         <?php
                         $sql = "SELECT barangay FROM barangay";
                         $results = mysqli_query($con, $sql);
