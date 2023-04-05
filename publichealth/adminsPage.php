@@ -98,7 +98,7 @@ $user_data = check_login($con);
 
                         $servername = 'localhost';
                         $username = 'root';
-                        $password = '123';
+                        $password = '';
                         $database = 'publichealthdb';
 
                         //create connection to the database

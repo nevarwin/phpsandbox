@@ -2,7 +2,7 @@
 // include("connection.php");
 $servername = 'localhost';
 $username = 'root';
-$password = '123';
+$password = '';
 $database = 'publichealthdb';
 
 

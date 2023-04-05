@@ -107,7 +107,7 @@ $user_data = check_login($con);
 
                         $servername = 'localhost';
                         $username = 'root';
-                        $password = '123';
+                        $password = '';
                         $database = 'publichealthdb';
 
                         //create connection to the database
@@ -130,11 +130,11 @@ $user_data = check_login($con);
                     <div class="numbers">
                         <?php
                         include("connection.php");
-                        $dengueCount = "SELECT * from patients WHERE disease = 13";
-                        $result = $conn->query($dengueCount);
-                        $dengueCases = mysqli_num_rows($result);
+                        $rabiesCount = "SELECT * from patients WHERE disease = 13";
+                        $result = $conn->query($rabiesCount);
+                        $rabiesCases = mysqli_num_rows($result);
                         echo "
-                            $dengueCases
+                            $rabiesCases
                         ";
                         ?>
                     </div>
