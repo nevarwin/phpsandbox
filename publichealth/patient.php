@@ -184,7 +184,7 @@ $user_data = check_login($con);
                     LEFT JOIN barangay ON patients.barangay = barangay.id
                     LEFT JOIN municipality ON patients.municipality = municipality.munId
                     LEFT JOIN diseases ON patients.disease = diseases.diseaseId
-                    LEFT JOIN outcomes ON patients.outcome = outcomes.outcomeId
+                    -- LEFT JOIN outcomes ON patients.outcome = outcomes.outcomeId
                     LEFT JOIN genders ON patients.gender = genders.genderId
                     ";
 
@@ -196,13 +196,13 @@ $user_data = check_login($con);
                     }
 
                     while ($row = $result->fetch_object()) {
+                        // <td>$row->outcome</td>
                         echo "
                         <tr>
                         <td>$row->firstName</td>
                         <td>$row->lastName</td>
                         <td>$row->gender</td>
                         <td>$row->disease</td>
-                        <td>$row->outcome</td>
                         <td>$row->dob</td>
                         <td>$row->age</td>
                         <td>$row->barangay</td>
