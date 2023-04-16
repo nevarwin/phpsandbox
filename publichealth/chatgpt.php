@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
 echo '<form method="post" action="">';
 echo '<label for="select">Select an option:</label>';
 echo '<select id="select" name="option">';
+echo '<option>' . 'Please select a disease' . '</option>';
 foreach ($options as $id => $name) {
     echo '<option value="' . $id . '">' . $name . '</option>';
 }
@@ -59,4 +60,60 @@ if (isset($_POST['submit'])) {
     }
 }
 
+
+
 $conn->close();
+?>
+
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "publichealthdb";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+// Determine the total number of records and the number of records per page
+$totalRecords = mysqli_query($conn, "SELECT COUNT(*) FROM patients")->fetch_array()[0];
+$recordsPerPage = 3;
+
+// Determine the current page number and the starting record for the page
+if (isset($_GET['page'])) {
+    $currentPage = $_GET['page'];
+} else {
+    $currentPage = 1;
+}
+$startRecord = ($currentPage - 1) * $recordsPerPage;
+
+// Modify the SQL query to retrieve only the records for the current page
+$sql = "SELECT * FROM patients LIMIT $startRecord, $recordsPerPage";
+$result = mysqli_query($conn, $sql);
+
+// Display the records in the table
+echo "<table>";
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<tr><td>" . $row['firstName'] . "</td><td>" . $row['lastName'] . "</td></tr>";
+}
+echo "</table>";
+
+// Add links to navigate between the pages
+$totalPages = ceil($totalRecords / $recordsPerPage);
+if ($totalPages > 1) {
+    echo "<div>";
+    if ($currentPage > 1) {
+        echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+    }
+    for ($i = 1; $i <= $totalPages; $i++) {
+        if ($i == $currentPage) {
+            echo "<li class='page-item active'><a class='page-link'>" . $i . "</a></li>";
+        } else {
+            echo "<li class='page-item'><a class='page-link' href=\"?page=" . $i . "\">" . $i . "</a></li>";
+        }
+    }
+    if ($currentPage < $totalPages) {
+        echo "<a href=\"?page=" . ($currentPage + 1) . "\">Next</a>";
+    }
+    echo "</div>";
+}
+?>
