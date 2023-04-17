@@ -68,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             <input class="btn btn-success w-100" type="submit" value="SIGN IN" onclick="checkForm(document.loginForm.password)">
+            <a href="./landingpage/index.php" class="btn w-100">Cancel</a>
+
+
         </form>
     </div>
 </body>
