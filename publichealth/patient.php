@@ -38,7 +38,7 @@ $user_data = check_login($con);
                     </a>
                 </li>
                 <li>
-                    <a href="adminsPage.php">
+                    <a href="admin.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
                         </span>
                         <span class="title">Admins</span>
@@ -169,10 +169,10 @@ $user_data = check_login($con);
                         <th>Gender</th>
                         <th>Disease</th>
                         <th>Outcome</th>
-                        <th>Date of Birth</th>
                         <th>Age</th>
                         <th>Barangay</th>
                         <th>Municipality</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -208,8 +208,8 @@ $user_data = check_login($con);
                         <td>$row->barangay</td>
                         <td>$row->municipality</td>
                         <td>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealthdbcrud/editPatient.php?id=$row->patientId'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealthdbcrud/deletePatient.php?id=$row->patientId'>Delete</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editPatient.php?id=$row->patientId'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deletePatient.php?id=$row->patientId'>Delete</a>
                         </td>
                         </tr>
                     ";

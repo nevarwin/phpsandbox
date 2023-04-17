@@ -38,7 +38,7 @@ $user_data = check_login($con);
                     </a>
                 </li>
                 <li>
-                    <a href="adminsPage.php">
+                    <a href="admin.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
                         </span>
                         <span class="title">Admins</span>
