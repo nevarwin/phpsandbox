@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         }
         // added new data into the db
-        $sql = "INSERT INTO patients(creationDate,`firstName`, `lastName`, `middleName`, `munCityOfDRU`, `addressOfDRU`, `age`,  `gender`, `dob`, `municipality`, `barangay`, `address`, `disease`) VALUES ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease')";
+        $sql = "INSERT INTO patients(`creationDate`, `firstName`, `lastName`, `middleName`, `munCityOfDRU`, `addressOfDRU`, `gender`, `dob`, `municipality`, `barangay`, `address`, `disease`) VALUES ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease')";
         $result = mysqli_query($con, $sql);
 
         if (!$result) {
@@ -302,7 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         barangays.forEach(function(barangay) {
                             const option = document.createElement('option');
                             option.text = barangay.barangay;
-                            option.value = barangay.muncityId;
+                            option.value = barangay.id;
                             barangaySelect.add(option);
 
                         });
