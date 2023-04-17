@@ -2,7 +2,7 @@
 // Connect to database and fetch barangays for selected country
 $dbhost = "localhost";
 $dbuser = "root";
-$dbpass = "123";
+$dbpass = "";
 $dbname = "publichealthdb";
 
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
