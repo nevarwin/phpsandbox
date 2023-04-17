@@ -38,6 +38,9 @@ $email = $row['email'];
 $password = $row['password'];
 $contact = $row['contact_number'];
 $address = $row['address'];
+$municipality = $row['municipality'];
+$barangay = $row['barangay'];
+
 // POST Method: Update the data of the client
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
@@ -45,10 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
+    $municipality = $_POST['municipality'];
+    $barangay = $_POST['barangay'];
 
     // check if the data is empty
     do {
-        if (empty($name) or empty($email) or empty($password)  or empty($contact) or empty($address)) {
+        if (empty($name) or empty($email) or empty($password)  or empty($contact) or empty($address) or empty($municipality) or empty($barangay)) {
             $errorMessage = "All fields are required";
             break;
         }
@@ -57,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //     break;
         // }
         // update data into the db
-        $sql = "UPDATE `clients` SET `name` = '$name', `email` = '$email',`password` = '$password', `contact_number` = '$contact', `address` = '$address' WHERE id = $id";
+        $sql = "UPDATE `clients` SET `name` = '$name', `email` = '$email',`password` = '$password', `contact_number` = '$contact', `address` = '$address', `municipality` = '$municipality', `barangay` = '$barangay' WHERE id = $id";
 
         if ($con->query($sql) === TRUE) {
             echo "Record updated successfully";
@@ -66,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Error updating record: ";
         }
 
-        header("location: /phpsandbox/publichealth/index.php");
+        header("location: /phpsandbox/publichealth/admin.php");
         $con->close();
     } while (false);
 }
@@ -129,19 +134,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="municipality">
-                        <option>Select Municipality</option>
+                    <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
+                        <option value="">Select municipality</option>
                         <?php
-                        $sql = "SELECT municipality FROM municipality";
-                        $results = mysqli_query($con, $sql);
-                        if ($results->num_rows) {
-                            while ($row = $results->fetch_object()) {
-                                echo " 
-                                    <option value='$row->municipality'>
-                                        $row->municipality
-                                    </option>
-                                ";
-                            }
+                        // Connect to database and fetch municipalities
+                        $dbhost = "localhost";
+                        $dbuser = "root";
+                        $dbpass = "";
+                        $dbname = "publichealthdb";
+
+                        $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+                        $result = mysqli_query($conn, 'SELECT * FROM municipality');
+
+                        // Display each municipalities in a dropdown option
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
                         }
                         ?>
                     </select>
@@ -151,21 +158,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
                 <div class="col-sm-6">
-                    <select class="form-select" id="barangay-dropdown">
+                    <select class="form-select" id="barangay" name="barangay">
                         <option>Select Barangay</option>
-                        <?php
-                        $sql = "SELECT barangay FROM barangay";
-                        $results = mysqli_query($con, $sql);
-                        if ($results->num_rows) {
-                            while ($row = $results->fetch_object()) {
-                                echo " 
-                                    <option value='$row->barangay'>
-                                        $row->barangay
-                                    </option>
-                                ";
-                            }
-                        }
-                        ?>
                     </select>
                 </div>
             </div>
@@ -196,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="submit" class='btn btn-primary'>Submit</button>
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <a href="/phpsandbox/publichealth/index.php" class="btn btn-outline-primary" role="button">Cancel</a>
+                    <a href="/phpsandbox/publichealth/admin.php" class="btn btn-outline-primary" role="button">Cancel</a>
                 </div>
             </div>
     </div>
@@ -204,6 +198,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateBarangays() {
+            const municipalitySelect = document.getElementById('municipality');
+            const barangaySelect = document.getElementById('barangay');
+            const selectedMunicipality = municipalitySelect.value;
+
+            // Clear barangay dropdown
+            barangaySelect.innerHTML = '';
+
+            if (selectedMunicipality) {
+                // Fetch barangays for selected country using AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        const barangays = JSON.parse(this.responseText);
+
+                        // Populate barangay dropdown
+                        barangays.forEach(function(barangay) {
+                            const option = document.createElement('option');
+                            option.text = barangay.barangay;
+                            option.value = barangay.id;
+                            barangaySelect.add(option);
+                        });
+                    }
+                };
+                xhr.open('GET', 'get_barangay.php?municipality=' + selectedMunicipality, true);
+                xhr.send();
+            }
+        }
+    </script>
 </body>
 
 </html>
