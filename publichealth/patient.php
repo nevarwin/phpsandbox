@@ -159,7 +159,7 @@ $user_data = check_login($con);
         </div>
         <div class="container my-5">
             <h2>Patients</h2>
-            <a href="/phpsandbox/publichealth/createPatient.php" class='btn btn-primary' role="button">New Item in DB</a>
+            <a href="/phpsandbox/publichealth/createPatient.php" class='btn btn-primary' role="button">Add new Patient</a>
             <br>
             <table class='table'>
                 <thead>
@@ -192,7 +192,7 @@ $user_data = check_login($con);
 
                     // check if there is data in the table
                     if (!$result) {
-                        die('Invalid Query: ' . $con->error);
+                        die('Invalid Query: ');
                     }
 
                     while ($row = $result->fetch_object()) {

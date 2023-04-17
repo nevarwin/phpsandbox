@@ -149,7 +149,7 @@ $user_data = check_login($con);
         </div>
         <div class="container my-5">
             <h2>Dashboard</h2>
-            <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">New Item in DB</a>
+            <a href="/phpsandbox/publichealth/createAdmin.php" class='btn btn-primary' role="button">Add new Admin</a>
             <br>
             <table class='table'>
                 <thead>
