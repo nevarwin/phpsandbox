@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Connect to database and fetch municipalities
                         $dbhost = "localhost";
                         $dbuser = "root";
-                        $dbpass = "123";
+                        $dbpass = "";
                         $dbname = "publichealthdb";
 
                         $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
