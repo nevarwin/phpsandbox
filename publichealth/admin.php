@@ -13,7 +13,7 @@ $user_data = check_login($con);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try DB CRUD</title>
+    <title>Admin Page</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
@@ -30,13 +30,13 @@ $user_data = check_login($con);
                         <span class="title">Public Health Disease </span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon></span>
                         <span class="title">Dashboard</span>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="#">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
@@ -61,14 +61,6 @@ $user_data = check_login($con);
                             ?>
                             Settings
                         </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="map-outline"></ion-icon>
-                        </span>
-                        <span class="title">Map</span>
                     </a>
                 </li>
                 <li>
@@ -131,35 +123,10 @@ $user_data = check_login($con);
                         <th>Barangay</th>
                         <th>Municipality</th>
                         <th>Created At</th>
-                        <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    include("connection.php");
-
-                    //create connection to the database
-                    $conn = new mysqli($servername, $username, $password, $database);
-
-                    //check connection
-                    if ($conn->connect_error) {
-                        // die equivalent to exit
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-
-                    // read all the data from db table
-                    $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
-                    FROM clients
-                    LEFT JOIN barangay ON clients.barangay = barangay.id 
-                    LEFT JOIN municipality ON clients.municipality = municipality.munId";
-                    $result = $conn->query($sql);
-
-                    // check if there is data in the table
-                    if (!$result) {
-                        die('Invalid Query: ' . $conn->error);
-                    }
-
                     while ($row = $result->fetch_object()) {
                         echo "
                         <tr>

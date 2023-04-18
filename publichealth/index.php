@@ -30,13 +30,13 @@ $user_data = check_login($con);
                         <span class="title">Public Health Disease </span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon></span>
                         <span class="title">Dashboard</span>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="admin.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
@@ -52,7 +52,7 @@ $user_data = check_login($con);
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="editAdmin.php">
                         <span class="icon"><ion-icon name="settings-outline"> </ion-icon>
                         </span>
                         <span class="title">
@@ -61,14 +61,6 @@ $user_data = check_login($con);
                             ?>
                             Settings
                         </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="map-outline"></ion-icon>
-                        </span>
-                        <span class="title">Map</span>
                     </a>
                 </li>
                 <li>
@@ -154,7 +146,6 @@ $user_data = check_login($con);
             <table class='table'>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Contact Number</th>
@@ -193,7 +184,6 @@ $user_data = check_login($con);
                     while ($row = $result->fetch_object()) {
                         echo "
                         <tr>
-                        <td>$row->id</td>
                         <td>$row->name</td>
                         <td>$row->email</td>
                         <td>$row->contact_number</td>

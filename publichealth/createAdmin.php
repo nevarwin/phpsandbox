@@ -1,5 +1,9 @@
 <?php
+session_start();
 include("connection.php");
+include("function.php");
+
+$user_data = check_login($con);
 
 //create connection to the database
 // $conn = new mysqli($servername, $username, $password, $database);
@@ -62,93 +66,156 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Item in DB</title>
+    <title>Create Admin Page</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 
 </head>
 
 <body>
-    <div class="container my-5">
-        <h2>New Client</h2>
+    <div class="con">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <!-- title -->
+                    <a href="index.php">
+                        <span class="icon"><ion-icon name="medkit-outline"></ion-icon>
+                        </span>
+                        <span class="title">Public Health Disease </span>
+                    </a>
+                </li>
+                <!-- <li>
+                    <a href="index.php">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon></span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Admins</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient.php">
+                        <span class="icon"><ion-icon name="cube-outline"></ion-icon>
+                        </span>
+                        <span class="title">Patients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="settings-outline"> </ion-icon>
+                        </span>
+                        <span class="title">
+                            <?php
+                            echo $user_data['name'];
+                            ?>
+                            Settings
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="signout.php">
+                        <span class="icon"><ion-icon name="log-in-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-        <?php
-        if (!empty($errorMessage)) {
-            echo "
+    <!-- hamber menu -->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+        </div>
+        <div class="container my-5">
+            <h2>New Client</h2>
+
+            <?php
+            if (!empty($errorMessage)) {
+                echo "
             <div class='alert alert-warning alert-dismissible fade show' role='alert'>
             <strong>$errorMessage</strong>
             <button type = 'button' class = 'btn-close' data-bs-dismissible='alert' aria-label='Close'></button>
             </div>
             ";
-        }
-        ?>
-        <form action="" method="post">
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Name</label>
-                <div class="col-sm-6">
-                    <input type="text" class='form-control' name='name' value='<?php echo $name; ?>'>
+            }
+            ?>
+            <form action="" method="post">
+                <div class="row mb-3">
+                    <label for="" class='col-sm-3 col-form-label'>Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class='form-control' name='name' value='<?php echo $name; ?>'>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Email</label>
-                <div class="col-sm-6">
-                    <input type="text" class='form-control' name='email' value='<?php echo $email; ?>'>
+                <div class="row mb-3">
+                    <label for="" class='col-sm-3 col-form-label'>Email</label>
+                    <div class="col-sm-6">
+                        <input type="text" class='form-control' name='email' value='<?php echo $email; ?>'>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Password</label>
-                <div class="col-sm-6">
-                    <input type="password" class='form-control' name='password' value='<?php echo $password; ?>'>
+                <div class="row mb-3">
+                    <label for="" class='col-sm-3 col-form-label'>Password</label>
+                    <div class="col-sm-6">
+                        <input type="password" class='form-control' name='password' value='<?php echo $password; ?>'>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Contact Number</label>
-                <div class="col-sm-6">
-                    <input type="text" class='form-control' name='contact' value='<?php echo $contact; ?>'>
+                <div class="row mb-3">
+                    <label for="" class='col-sm-3 col-form-label'>Contact Number</label>
+                    <div class="col-sm-6">
+                        <input type="text" class='form-control' name='contact' value='<?php echo $contact; ?>'>
+                    </div>
                 </div>
-            </div>
-            <!-- Municipality Dropdown -->
-            <div class="row mb-3">
-                <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
-                <div class="col-sm-6">
-                    <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
-                        <option value="">Select municipality</option>
-                        <?php
-                        // Connect to database and fetch municipalities
-                        $dbhost = "localhost";
-                        $dbuser = "root";
-                        $dbpass = "";
-                        $dbname = "publichealthdb";
+                <!-- Municipality Dropdown -->
+                <div class="row mb-3">
+                    <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
+                    <div class="col-sm-6">
+                        <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
+                            <option value="">Select municipality</option>
+                            <?php
+                            // Connect to database and fetch municipalities
+                            $dbhost = "localhost";
+                            $dbuser = "root";
+                            $dbpass = "";
+                            $dbname = "publichealthdb";
 
-                        $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-                        $result = mysqli_query($conn, 'SELECT * FROM municipality');
+                            $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+                            $result = mysqli_query($conn, 'SELECT * FROM municipality');
 
-                        // Display each municipalities in a dropdown option
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
-                        }
-                        ?>
-                    </select>
+                            // Display each municipalities in a dropdown option
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo '<option value="' . $row['munId'] . '">' . $row['municipality'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!-- Barangay Dropdown -->
-            <div class="row mb-3">
-                <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
-                <div class="col-sm-6">
-                    <select class="form-select" id="barangay" name="barangay">
-                        <option>Select Barangay</option>
-                    </select>
+                <!-- Barangay Dropdown -->
+                <div class="row mb-3">
+                    <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
+                    <div class="col-sm-6">
+                        <select class="form-select" id="barangay" name="barangay">
+                            <option>Select Barangay</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="" class='col-sm-3 col-form-label'>Address</label>
-                <div class="col-sm-6">
-                    <input type="text" class='form-control' name='address' value='<?php echo $address; ?>'>
+                <div class="row mb-3">
+                    <label for="" class='col-sm-3 col-form-label'>Address</label>
+                    <div class="col-sm-6">
+                        <input type="text" class='form-control' name='address' value='<?php echo $address; ?>'>
+                    </div>
                 </div>
-            </div>
 
-            <?php
-            if (!empty($successMessage)) {
-                echo "
+                <?php
+                if (!empty($successMessage)) {
+                    echo "
                 <div class='row mb-3'>
                 <div class='offset-sm-3 col-sm-6'>
                 <div class='alert alert-success alert-dimissible fade show' role='alert'>
@@ -158,18 +225,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 </div>
                 ";
-            }
-            ?>
-            <div class="row mb-3">
-                <div class="offset-sm-3 col-sm-3 d-grid">
-                    <button type="submit" class='btn btn-primary'>Submit</button>
+                }
+                ?>
+                <div class="row mb-3">
+                    <div class="offset-sm-3 col-sm-3 d-grid">
+                        <button type="submit" class='btn btn-primary'>Submit</button>
+                    </div>
+                    <div class="col-sm-3 d-grid">
+                        <a href="/phpsandbox/publichealth/admin.php" class="btn btn-outline-primary" role="button">Cancel</a>
+                    </div>
                 </div>
-                <div class="col-sm-3 d-grid">
-                    <a href="/phpsandbox/publichealth/index.php" class="btn btn-outline-primary" role="button">Cancel</a>
-                </div>
-            </div>
+        </div>
+        </form>
     </div>
-    </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -202,6 +270,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 xhr.send();
             }
         }
+    </script>
+    <!-- ionicons installation -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        // menu toggle
+        let toggle = document.querySelector(".toggle");
+        let navigation = document.querySelector(".navigation");
+        let main = document.querySelector(".main");
+
+        toggle.onclick = function() {
+            navigation.classList.toggle("active");
+            main.classList.toggle("active");
+        };
+
+        // add hovered class in selected list item
+        let list = document.querySelectorAll(".navigation li");
+
+        function activeLink() {
+            list.forEach((item) => item.classList.remove("hovered"));
+            this.classList.add("hovered");
+        }
+        list.forEach((item) => item.addEventListener("mouseover", activeLink));
     </script>
 </body>
 

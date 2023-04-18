@@ -13,7 +13,7 @@ $user_data = check_login($con);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try DB CRUD</title>
+    <title>Patient Page</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
@@ -30,13 +30,13 @@ $user_data = check_login($con);
                         <span class="title">Public Health Disease </span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon></span>
                         <span class="title">Dashboard</span>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="admin.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
@@ -52,7 +52,7 @@ $user_data = check_login($con);
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href='/phpsandbox/publichealth/editAdmin.php?id=$row->id'>
                         <span class="icon"><ion-icon name="settings-outline"> </ion-icon>
                         </span>
                         <span class="title">
@@ -61,14 +61,6 @@ $user_data = check_login($con);
                             ?>
                             Settings
                         </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="map-outline"></ion-icon>
-                        </span>
-                        <span class="title">Map</span>
                     </a>
                 </li>
                 <li>
@@ -208,8 +200,8 @@ $user_data = check_login($con);
                         <td>$row->barangay</td>
                         <td>$row->municipality</td>
                         <td>
+                            <a class='btn btn-info btn-sm' href='/phpsandbox/publichealth/viewPatient.php?id=$row->patientId'>View</a>
                             <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editPatient.php?id=$row->patientId'>Edit</a>
-                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deletePatient.php?id=$row->patientId'>Delete</a>
                         </td>
                         </tr>
                     ";
