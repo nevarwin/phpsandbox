@@ -147,7 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
         </div>
-        <br><br>
         <div class="container">
             <?php
             if (!empty($errorMessage)) {
