@@ -51,7 +51,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                     </a>
                 </li> -->
                 <li>
-                    <a href="#">
+                    <a href="admin.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon>
                         </span>
                         <span class="title">Admins</span>
@@ -100,8 +100,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                 <div>
                     <div class="numbers">
                         <?php
-                        $adminCountSql = "SELECT * from clients 
-                        LIMIT $startRecord, $recordsPerPage";
+                        $adminCountSql = "SELECT * from clients";
                         $result = $con->query($adminCountSql);
                         $adminCount = mysqli_num_rows($result);
                         echo "
@@ -132,6 +131,20 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                 </thead>
                 <tbody>
                     <?php
+                    // read all the data from db table
+                    $sql = "SELECT clients.*, barangay.barangay, municipality.municipality
+                    FROM clients
+                    LEFT JOIN barangay ON clients.barangay = barangay.id 
+                    LEFT JOIN municipality ON clients.municipality = municipality.munId
+                    LIMIT $startRecord, $recordsPerPage
+                    ";
+                    $result = $con->query($sql);
+
+                    // check if there is data in the table
+                    if (!$result) {
+                        die('Invalid Query: ' . $conn->error);
+                    }
+
                     while ($row = $result->fetch_object()) {
                         echo "
                         <tr>
@@ -168,8 +181,12 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                     $totalPages = ceil($totalRecords / $recordsPerPage);
                     if ($totalPages > 1) {
                         if ($currentPage > 1) {
-                            echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage - 1) . "\">Previous</a>";
                         }
+                        // old code with class
+                        // if ($currentPage > 1) {
+                        //     echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+                        // }
                         for ($i = 1; $i <= $totalPages; $i++) {
                             if ($i == $currentPage) {
                                 echo "<li class='page-item active'><a class='page-link'>" . $i . "</a></li>";

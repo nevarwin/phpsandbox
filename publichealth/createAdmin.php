@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
         <div class="container my-5">
-            <h2>New Client</h2>
+            <h2>New Admin</h2>
 
             <?php
             if (!empty($errorMessage)) {

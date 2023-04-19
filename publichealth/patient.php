@@ -240,8 +240,11 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                     $totalPages = ceil($totalRecords / $recordsPerPage);
                     if ($totalPages > 1) {
                         if ($currentPage > 1) {
-                            echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage - 1) . "\">Previous</a>";
                         }
+                        // if ($currentPage > 1) {
+                        //     echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+                        // }
                         for ($i = 1; $i <= $totalPages; $i++) {
                             if ($i == $currentPage) {
                                 echo "<li class='page-item active'><a class='page-link'>" . $i . "</a></li>";
