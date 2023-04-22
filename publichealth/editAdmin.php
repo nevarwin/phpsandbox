@@ -5,9 +5,6 @@ include("function.php");
 
 $user_data = check_login($con);
 
-//create connection to the database
-// $conn = new mysqli($servername, $username, $password, $database);
-
 $id = '';
 $name = '';
 $email = '';
@@ -21,7 +18,7 @@ $successMessage = '';
 // if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //GET Method: show the data of the client
 if (!isset($_GET["id"])) {
-    header('location: /phpsandbox/publichealthd/index.php');
+    header('location: /phpsandbox/publichealthd/admin.php');
     exit;
 }
 
@@ -33,7 +30,7 @@ $result = mysqli_query($con, $sql);
 $row = $result->fetch_assoc();
 
 if (!$row) {
-    header('location: /phpsandbox/publichealth/index.php');
+    header('location: /phpsandbox/publichealth/admin.php');
     exit;
 }
 
@@ -203,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label class='col-sm-3 col-form-label' for="municipality">Municipality</label>
                     <div class="col-sm-6">
                         <select class="form-select" id="municipality" onchange="updateBarangays()" name="municipality">
-                            <option value="">Select municipality</option>
+                            <option value="">Select Municipality</option>
                             <?php
                             // Connect to database and fetch municipalities
                             $dbhost = "localhost";
@@ -227,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label class='col-sm-3 col-form-label' for="barangay">Barangay</label>
                     <div class="col-sm-6">
                         <select class="form-select" id="barangay" name="barangay">
-                            <option>Select Barangay</option>
+                            <option><?php echo $barangay; ?></option>
                         </select>
                     </div>
                 </div>
