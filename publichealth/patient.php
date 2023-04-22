@@ -75,6 +75,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                             Settings
                         </span>
                     </a>
+
                 </li>
                 <li>
                     <a href="signout.php">
@@ -164,7 +165,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
         </div>
         <div class="container my-5">
             <h2>Patients</h2>
-            <a href="/phpsandbox/publichealth/createPatient.php" class='btn btn-primary' role="button">Add new Patient</a>
+            <a href="/phpsandbox/publichealth/createPatient.php" class=' btn btn-primary' role="button">Add new Patient</a>
             <br>
             <table class='table'>
                 <thead>
@@ -173,7 +174,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                         <th>Last Name</th>
                         <th>Gender</th>
                         <th>Disease</th>
-                        <th>Outcome</th>
+                        <th>Date of Birth</th>
                         <th>Age</th>
                         <th>Barangay</th>
                         <th>Municipality</th>
@@ -214,8 +215,8 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                         <td>$row->barangay</td>
                         <td>$row->municipality</td>
                         <td>
-                            <a class='btn btn-info btn-sm' href='/phpsandbox/publichealth/viewPatient.php?id=$row->patientId'>View</a>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editPatient.php?id=$row->patientId'>Edit</a>
+                            <a class='btn btn-info btn-sm' href='/phpsandbox/publichealth/viewPatient.php?patientId=$row->patientId'>View</a>
+                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editPatient.php?patientId=$row->patientId'>Edit</a>
                         </td>
                         </tr>
                     ";
