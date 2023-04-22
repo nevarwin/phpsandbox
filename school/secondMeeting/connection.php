@@ -1,7 +1,7 @@
 <?php
 $dbhost = "localhost";
 $dbuser = "root";
-$dbpass = "123";
+$dbpass = "";
 $dbname = "crudseries";
 
 if (!$con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname)) {
