@@ -170,13 +170,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <form action="" method="post">
         <h3>Login Here</h3>
-        <label for="username">Username</label>
+        <label for="username">Email</label>
         <input type="text" placeholder="Email" id="email" name="email">
 
         <label for="password">Password</label>
         <input type="password" placeholder="Password" id="password" name="password">
         <button>Log In</button>
-
+        <a href="./landingpage/landingpage.php" class="btn w-100">Cancel</a>
     </form>
 
 </body>
