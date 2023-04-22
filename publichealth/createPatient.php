@@ -20,8 +20,6 @@ $successMessage = '';
 // check if the form is submitted using the post method
 // initialize data above into the post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
     // get the data from the Form
     $fName = $_POST['fName'];
     $lName = $_POST['lName'];
@@ -47,11 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         }
         // added new data into the db
-        $sql = "INSERT INTO patients(`creationDate`, `firstName`, `lastName`, `middleName`, `munCityOfDRU`, `addressOfDRU`, `gender`, `dob`, `municipality`, `barangay`, `address`, `disease`) VALUES ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease')";
+        $sql = "INSERT INTO patients
+        (`creationDate`, `firstName`, `lastName`, `middleName`, `munCityOfDRU`, `addressOfDRU`,`gender`, `dob`, `municipality`, `barangay`, `address`, `disease`,`brgyOfDRU`, `contact`) 
+        VALUES 
+        ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease', '$barangayDRU', '$contact')";
         $result = mysqli_query($con, $sql);
 
         if (!$result) {
-            $errorMessage = "Invalid query: " . $result;
+            $errorMessage = mysqli_error($con);
             break;
         }
 
@@ -151,10 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php
             if (!empty($errorMessage)) {
                 echo "
-            <div class='alert alert-warning alert-dismissible fade show' role='alert'>
             <strong>$errorMessage</strong>
-            <button type = 'button' class = 'btn-close' data-bs-dismissible='alert' aria-label='Close'></button>
-            </div>
             ";
             }
             ?>
