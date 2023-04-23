@@ -6,7 +6,7 @@ include("function.php");
 $user_data = check_login($con);
 
 // Determine the total number of records and the number of records per page
-$totalRecords = mysqli_query($con, "SELECT COUNT(*) FROM clients ")->fetch_array()[0];
+$totalRecords = mysqli_query($con, "SELECT COUNT(*) FROM patients ")->fetch_array()[0];
 // to edit how many fields in the web
 $recordsPerPage = 3;
 
@@ -14,7 +14,7 @@ $recordsPerPage = 3;
 if (isset($_GET['page'])) {
     $currentPage = $_GET['page'];
 } else {
-    $currentPage = 5;
+    $currentPage = 1;
 }
 $startRecord = ($currentPage - 1) * $recordsPerPage;
 
@@ -75,7 +75,13 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                             Settings
                         </span>
                     </a>
-
+                </li>
+                <li>
+                    <a href="rabiesForm.php">
+                        <span class="icon"><ion-icon name="log-in-outline"></ion-icon>
+                        </span>
+                        <span class="title">Rabies Form</span>
+                    </a>
                 </li>
                 <li>
                     <a href="signout.php">
@@ -217,7 +223,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                         <td>
                             <a class='btn btn-info btn-sm' href='/phpsandbox/publichealth/viewPatient.php?patientId=$row->patientId'>View</a>
                             <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/editPatient.php?patientId=$row->patientId'>Edit</a>
-                            <a class='btn btn-primary btn-sm' href='/phpsandbox/publichealth/deletePatient.php?patientId=$row->patientId'>Delete</a>
+                            <a class='btn btn-danger btn-sm' href='/phpsandbox/publichealth/deletePatient.php?patientId=$row->patientId'>Delete</a>
                         </td>
                         </tr>
                     ";
