@@ -94,7 +94,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
         </div>
-        <div class="container my-5 overflow-auto" style="max-height: calc(100vh - 100px); overflow-y: auto;"">
+        <div class="container my-5 overflow-auto" style="max-height: calc(100vh - 100px); overflow-y: auto;">
             <h2>Admins</h2>
             <a href=" /phpsandbox/publichealth/rabiesForm-create.php" class='btn btn-primary' role="button">Add New Rabies Form</a>
             <br>
