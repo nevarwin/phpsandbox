@@ -8,7 +8,7 @@ $user_data = check_login($con);
 // Determine the total number of records and the number of records per page
 $totalRecords = mysqli_query($con, "SELECT COUNT(*) FROM patients ")->fetch_array()[0];
 // to edit how many fields in the web
-$recordsPerPage = 3;
+$recordsPerPage = 10;
 
 // Determine the current page number and the starting record for the page
 if (isset($_GET['page'])) {
@@ -27,6 +27,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Page</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-glyphs/30/null/fever.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
@@ -95,7 +96,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
     </div>
 
     <!-- hamber menu -->
-    <div class="main">
+    <div class="main my-5 overflow-auto" style="max-height: calc(100vh - 100px); overflow-y: auto;">
         <div class="topbar">
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
