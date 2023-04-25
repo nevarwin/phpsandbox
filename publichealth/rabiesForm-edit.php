@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
         <div class="container my-5 overflow-auto" style="max-height: calc(100vh - 100px); overflow-y: auto;">
-            <h2>Rabies Form</h2>
+            <h2>Edit Rabies Form</h2>
 
             <?php
             if (!empty($errorMessage)) {
@@ -260,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class='form-control' name='caseClass' value='<?php echo $caseClass; ?>'>
                     </div>
                 </div>
-                <div class="row mb-3">
+                <!-- <div class="row mb-3">
                     <div class="col-md-3">
                         <label for="dropdown">Dropdown Label:</label>
                     </div>
@@ -272,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="option3">Option 3</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
 
 
