@@ -27,7 +27,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
-    <link rel="shortcut icon" href="https://img.icons8.com/windows/32/null/administrator-male--v1.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://img.icons8.com/material-rounded/24/000000/administrator-male.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>

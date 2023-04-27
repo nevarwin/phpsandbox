@@ -41,7 +41,7 @@
                     <th>$email</th>
                     <th>$mobile</th>
                     <th>
-                        <a href='/phpsandbox/school/secondmeeting/update.php?id=$id'>Edit</a>                    
+                        <a href='/phpsandbox/school/secondmeeting/update.php?id=$id'>Update</a>                    
                     </th>
                     <th>
                         <a href='/phpsandbox/school/secondmeeting/delete.php?id=$id'>Delete</a>                    

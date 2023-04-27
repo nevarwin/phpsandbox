@@ -21,6 +21,8 @@ $successMessage = '';
 // initialize data above into the post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // get the data from the Form
+    $patientId = $_POST['patientId'];
+    // $_SESSION['patiendId'] = $patientId;
     $fName = $_POST['fName'];
     $lName = $_POST['lName'];
     $mName = $_POST['mName'];
@@ -56,17 +58,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         }
 
-        // reset data
-        $name = '';
-        $email = '';
-        $password = '';
-        $contact = '';
-        $address = '';
+        $diseaseName = $_POST['disease'];
+        $sql = "SELECT * FROM diseases WHERE diseaseId = '$diseaseName'";
+        $result = mysqli_query($con, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $value = $row['diseaseId'];
+        $diseaseValue = strtolower($row['disease']);
 
+
+        echo ($value);
+        echo gettype($value);
+        echo ($diseaseName);
+        echo ($diseaseValue);
+        echo gettype($diseaseValue);
+
+        if (strcmp($diseaseName, $value) == 0) {
+            echo ('goods');
+            $link = "/phpsandbox/publichealth/{$diseaseValue}Form-create.php";
+            echo ($link);
+            header("Location: $link");
+            // exit(0);
+
+            // check if certain disease form is present *not working
+            if (file_exists($link)) {
+                echo ('Link Exist!');
+                // header("Location: $link");
+                // exit(0);
+            } else {
+                echo ('Link does not exist!');
+            }
+        } else {
+            // Handle error
+            echo ('error');
+        }
         $successMessage = "Client added correctly";
 
-        header("location: /phpsandbox/publichealth/patient.php");
-        exit;
+        // header("location: /phpsandbox/publichealth/patient.php");
+        // exit;
     } while (false);
 }
 
@@ -163,6 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <form action="" method="post">
                         <div class="input-group mb-3">
+                            <input type="hidden" class='form-control' name='patientId' value='<?php echo $patientId; ?>'>
                             <span class="input-group-text">Patient Name</span>
                             <input placeholder="Last Name" type="text" class='form-control' name='lName' value='<?php echo $fName; ?>'>
                             <input placeholder="First Name" type="text" class='form-control' name='fName' value='<?php echo $lName; ?>'>
@@ -275,14 +304,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <select class="form-select" id="disease" name="disease">
                                     <option value="">Select Disease</option>
                                     <?php
-                                    // Connect to database and fetch municipalities
+                                    // Connect to database and fetch disease
                                     include("connection.php");
                                     $result = mysqli_query($con, 'SELECT * FROM diseases');
 
-                                    // Display each municipalities in a dropdown option
+                                    // Display each disease in a dropdown option
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo '<option value="' . $row['diseaseId'] . '">' . $row['disease'] . '</option>';
                                     }
+
                                     ?>
                                 </select>
                             </div>
@@ -330,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         ?>
                         <div class="row mb-3">
                             <div class="offset-sm-3 col-sm-3 d-grid">
-                                <button type="submit" class='btn btn-primary'>Submit</button>
+                                <button type="submit" class='btn btn-primary' name="createPatient">Submit</button>
                             </div>
                             <div class="col-sm-3 d-grid">
                                 <a href="/phpsandbox/publichealth/patient.php" class="btn btn-outline-primary" role="button">Cancel</a>
@@ -342,6 +372,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var formHtml = {};
+        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+            formHtml["<?php echo $row['disease_name']; ?>"] = "<?php echo $row['form_html']; ?>";
+        <?php endwhile; ?>
+
+        var diseaseDropdown = document.querySelector("select[name='disease']");
+        var formContainer = document.querySelector("#form-container");
+
+        diseaseDropdown.addEventListener("change", function() {
+            var disease = this.value;
+            var form = formHtml[disease];
+            formContainer.innerHTML = form;
+        });
+    </script>
     <script>
         function updateBarangays() {
             const municipalitySelect = document.getElementById('municipality');

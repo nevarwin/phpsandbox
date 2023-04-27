@@ -8,6 +8,26 @@ $dbname = "crudseries";
 if (!$con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname)) {
     die("connection failed!");
 }
+if (!isset($_GET["id"])) {
+    header('location: /phpsandbox/school/read.php');
+    exit;
+}
+
+$id = $_GET['id'];
+// read row 
+$sql = "SELECT * FROM seriescrud WHERE id = $id";
+// execute the sql query
+$result = mysqli_query($con, $sql);
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    header('location: /phpsandbox/school/read.php');
+    exit;
+}
+$firstName = $row['fname'];
+$lastName = $row['lname'];
+$email = $row['email'];
+$mobile = $row['mobile'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstName = $_POST['firstName'];

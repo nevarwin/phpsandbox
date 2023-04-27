@@ -190,6 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h2>Edit Patient</h2>
 
                     <form action="" method="post">
+                        <input type="text" class='form-control' name='patientId' value='<?php echo $patientId; ?>'>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Patient Name</span>
                             <input placeholder="Last Name" type="text" class='form-control' name='lName' value='<?php echo $lName; ?>'>

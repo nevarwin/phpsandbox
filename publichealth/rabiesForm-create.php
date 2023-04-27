@@ -5,6 +5,7 @@ include("function.php");
 
 $user_data = check_login($con);
 
+$patientId = '';
 $typeOfExposure = '';
 $category = '';
 $biteSite = '';
@@ -23,26 +24,36 @@ $successMessage = '';
 
 // if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //GET Method: show the data of the client
-if (!isset($_GET["patientId"])) {
-    header('location: /phpsandbox/publichealthd/patient.php');
-    exit;
+if (!isset($_POST["patientId"])) {
+    echo "User ID is not set.";
+    // header('location: /phpsandbox/publichealth/patient.php');
+    // exit;
 }
+$patientId = $_POST['patientId'];
 
-$patientId = $_GET['patientId'];
-// read row 
-$sql = "SELECT * FROM patients WHERE patientId = $patientId";
-// execute the sql query
-$result = mysqli_query($con, $sql);
-$row = $result->fetch_assoc();
 
-if (!$row) {
-    header('location: /phpsandbox/publichealth/patient.php');
-    exit;
-}
+// $patientId = $_GET['patientId'];
+// // read row 
+// $sql = "SELECT patientId FROM patients WHERE `patientId` = $patientId";
+// // execute the sql query
+// $result = mysqli_query($con, $sql);
+// $row = $result->fetch_assoc();
+
+// if (!$row) {
+//     header('location: /phpsandbox/publichealth/patient.php');
+//     exit;
+// }
+
+// if (isset($_POST['createPatient'])) {
+//     $patientId =
+//         mysqli_real_escape_string($con, $_POST['patientId']);
+// }
+
 
 // check if the form is submitted using the post method
 // initialize data above into the post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $patientId = $_POST['patientId'];
     $typeOfExposure = $_POST['typeOfExposure'];
     $category = $_POST['category'];
     $biteSite = $_POST['biteSite'];
@@ -246,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class='form-control' name='caseClass' value='<?php echo $caseClass; ?>'>
                     </div>
                 </div>
-                <div class="row mb-3">
+                <!-- <div class="row mb-3">
                     <div class="col-md-3">
                         <label for="dropdown">Dropdown Label:</label>
                     </div>
@@ -258,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="option3">Option 3</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
 
 
