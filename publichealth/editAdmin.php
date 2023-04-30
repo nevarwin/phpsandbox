@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             ?>
             <form action="" method="post">
-                <input type="hidden" name='id' value='<?php echo $id     ?>'>
+                <input type="text" name='id' value='<?php echo $id ?>'>
                 <div class="row mb-3">
                     <label for="" class='col-sm-3 col-form-label'>Name</label>
                     <div class="col-sm-6">
