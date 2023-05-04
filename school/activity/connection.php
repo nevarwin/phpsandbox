@@ -2,7 +2,7 @@
 $dbhost = "localhost";
 $dbuser = "root";
 $dbpass = "";
-$dbname = "crudseries";
+$dbname = "admin";
 
 if (!$con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname)) {
   die("connection failed!");

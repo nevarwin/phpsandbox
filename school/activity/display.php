@@ -46,7 +46,7 @@ include('connection.php');
                 $fname = $row['fname'];
                 $lname = $row['lname'];
                 $email = $row['email'];
-                $mobile = $row['mobile'];
+                $contact = $row['contact'];
                 $address = $row['address'];
 
                 echo "
@@ -55,21 +55,20 @@ include('connection.php');
                     <th>$fname</th>
                     <th>$lname</th>
                     <th>$email</th>
-                    <th>$mobile</th>
+                    <th>$contact</th>
                     <th>$address</th>
                     <th>
                         <a href='http://localhost/phpsandbox/school/activity/create.php'>Create</a>
+                        <a href='http://localhost/phpsandbox/school/activity/update.php?id=$id'>Update</a>
+                        <a href='http://localhost/phpsandbox/school/activity/remove.php?id=$id'>Remove</a>
                     </th>
-                    <th>
-                        <a href='http://localhost/phpsandbox/school/activity/login.php'>Cancel</a>
-                    </th>
-
                 </tr>
-                ";
+                        ";
             }
             ?>
         </tbody>
     </table>
+    <a style="border: solid 1px grey" href='http://localhost/phpsandbox/school/activity/login.php'>Logout</a>
 </body>
 
 </html>

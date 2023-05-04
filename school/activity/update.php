@@ -1,26 +1,63 @@
 <?php
-session_start();
 include('connection.php');
 
+if (!isset($_GET['id'])) {
+    header('Location: display.php');
+    exit;
+}
+
+$id = $_GET['id'];
+
+$sql = "Select * from tbl_records where id = $id";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$fname = $row['fname'];
+$lname = $row['lname'];
+$contact = $row['contact'];
+$email = $row['email'];
+$address = $row['address'];
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (empty($fname) or empty($lname) or empty($contact) or empty($email) or empty($address)) {
+        echo "
+        <script>
+            alert('field missing');
+            window.location('http://localhost/phpsandbox/school/activity/display.php');
+        </script>
+        ";
+    }
+
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
-    $number = $_POST['number'];
+    $contact = $_POST['contact'];
     $email = $_POST['email'];
     $address = $_POST['address'];
 
-    if (!empty($fname) and !empty($lname) and !empty($number) and !empty($email) and !empty($address)) {
-        $sql = "INSERT INTO tbl_records(`fname`, `lname`, `contact`, `email`, `address`) 
-            VALUES ('$fname', '$lname', '$number', '$email', '$address')
-            ";
+    $sql = "UPDATE tbl_records SET fname = '$fname', lname = '$lname', contact = '$contact', email = '$email', address = '$address' WHERE id = $id";
 
-        $result = mysqli_query($con, $sql);
-        header('location: http://localhost/phpsandbox/school/activity/display.php');
-        exit(0);
-    } else {
+    $result = mysqli_query($con, $sql);
+
+    if (!$result) {
+        echo "
+        <script>
+            alert('Query Error');
+            window.location('http://localhost/phpsandbox/school/activity/display.php');
+        </script>
+        ";
     }
+    header('location: http://localhost/phpsandbox/school/activity/display.php');
+
+    echo "
+        <script>
+            alert('Record Succesfully Updated');
+            window.location('http://localhost/phpsandbox/school/activity/display.php');
+        </script>
+        ";
 }
+
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -156,18 +193,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="shape"></div>
         </div>
         <form name="registration" onsubmit="return validateForm()" method="post" action="">
-            <h2>Registration Form</h2>
+            <h2>Update Info</h2>
             <label>First Name</label>
-            <input type="text" id="fname" name="fname" autocomplete="fname" placeholder="Enter First Name" required />
+            <input type="text" value="<?= $fname ?>" id="fname" name="fname" autocomplete="fname" placeholder="Enter First Name" required />
             <label>Last Name</label>
-            <input type="text" id="lname" name="lname" autocomplete="lname" placeholder="Enter Last Name" required />
+            <input type="text" value="<?= $lname ?>" id="lname" name="lname" autocomplete="lname" placeholder="Enter Last Name" required />
             <label>Address</label>
-            <input type="text" id="address" name="address" autocomplete="address" placeholder="Enter Address" required />
+            <input type="text" value="<?= $address ?>" id="address" name="address" autocomplete="address" placeholder="Enter Address" required />
             <label>Email</label>
-            <input type="email" id="email" name="email" placeholder="example@email.com" />
+            <input type="email" value="<?= $email ?>" id="email" name="email" placeholder="example@email.com" />
             <label>Mobile Number</label>
-            <input type="text" id="number" name="number" placeholder="Enter mobile number" /><br />
-            <input type="submit" value="Register" />
+            <input type="text" value="<?= $contact ?>" id="number" name="contact" placeholder="Enter mobile number" /><br />
+            <input type="submit" value="Update" />
             <a href="./display.php" value="Cancel"> Cancel </a>
         </form>
     </div>
