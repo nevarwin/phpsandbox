@@ -24,14 +24,17 @@ $successMessage = '';
 
 // if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //GET Method: show the data of the client
-if (!isset($_POST["patientId"])) {
+if (!isset($_GET["patientId"])) {
     echo "User ID is not set.";
     // header('location: /phpsandbox/publichealth/patient.php');
     // exit;
 }
-$patientId = $_POST['patientId'];
+$patientId = $_GET['patientId'];
 
-
+if (empty($patientId)) {
+    echo 'patiend Id emtpy';
+}
+echo $patientId;
 // $patientId = $_GET['patientId'];
 // // read row 
 // $sql = "SELECT patientId FROM patients WHERE `patientId` = $patientId";
@@ -53,7 +56,6 @@ $patientId = $_POST['patientId'];
 // check if the form is submitted using the post method
 // initialize data above into the post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $patientId = $_POST['patientId'];
     $typeOfExposure = $_POST['typeOfExposure'];
     $category = $_POST['category'];
     $biteSite = $_POST['biteSite'];
