@@ -203,9 +203,8 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                     ";
 
                     $result = $con->query($sql);
-
                     // check if there is data in the table
-                    if (!$result) {
+                    if (!$result) {-  
                         die('Invalid Query: ');
                     }
 

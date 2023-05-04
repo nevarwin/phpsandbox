@@ -8,7 +8,7 @@ $user_data = check_login($con);
 // Determine the total number of records and the number of records per page
 $totalRecords = mysqli_query($con, "SELECT COUNT(*) FROM rabiesinfotbl ")->fetch_array()[0];
 // to edit how many fields in the web
-$recordsPerPage = 1;
+$recordsPerPage = 10;
 
 // Determine the current page number and the starting record for the page
 if (isset($_GET['page'])) {
