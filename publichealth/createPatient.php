@@ -52,29 +52,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         VALUES 
         ('$currentDate', '$fName', '$lName', '$mName' , '$municipalityDRU', '$addressDRU','$gender', '$dob', '$municipality', '$barangay', '$address', '$disease', '$barangayDRU', '$contact')";
         $result = mysqli_query($con, $sql);
+        $insert_id = mysqli_insert_id($con);
 
         if (!$result) {
             $errorMessage = mysqli_error($con);
             break;
         }
 
+        // Converting the disease to its string from their respective table
         $diseaseName = $_POST['disease'];
         $sql = "SELECT * FROM diseases WHERE diseaseId = '$diseaseName'";
-        $result = mysqli_query($con, $sql);
-        $row = mysqli_fetch_assoc($result);
+        $diseaseNameResult = mysqli_query($con, $sql);
+        $row = mysqli_fetch_assoc($diseaseNameResult);
         $value = $row['diseaseId'];
         $diseaseValue = strtolower($row['disease']);
 
+        $query = "SELECT patientId FROM patients";
+        $patientIdResult = mysqli_query($con, $query);
+        $patientValue = mysqli_fetch_assoc($patientIdResult);
+        $patientId = $patientValue['patientId'];
 
-        echo ($value);
-        echo gettype($value);
-        echo ($diseaseName);
-        echo ($diseaseValue);
-        echo gettype($diseaseValue);
+        echo "Patient id $patientId";
 
         if (strcmp($diseaseName, $value) == 0) {
             echo ('goods');
-            $link = "/phpsandbox/publichealth/{$diseaseValue}Form-create.php";
+            $link = "/phpsandbox/publichealth/{$diseaseValue}Form-create.php?patientId={$insert_id}";
             echo ($link);
             header("Location: $link");
             // exit(0);
@@ -318,44 +320,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         <!-- Outcome Dropdown
-                <div class="row mb-3">
-                    <label class='col-sm-3 col-form-label' for="outcome">Outcome</label>
-                    <div class="col-sm-6">
-                        <select class="form-select" id="outcome" name="outcome">
-                            <option value="">Select Outcome</option>
-                            <?php
-                            // Connect to database and fetch municipalities
-                            include("connection.php");
-                            $result = mysqli_query($con, 'SELECT * FROM outcomes');
+                    <div class="row mb-3">
+                        <label class='col-sm-3 col-form-label' for="outcome">Outcome</label>
+                        <div class="col-sm-6">
+                            <select class="form-select" id="outcome" name="outcome">
+                                <option value="">Select Outcome</option>
+                                <?php
+                                // Connect to database and fetch municipalities
+                                include("connection.php");
+                                $result = mysqli_query($con, 'SELECT * FROM outcomes');
 
-                            // Display each municipalities in a dropdown option
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo '<option value="' . $row['outcomeId'] . '">' . $row['outcome'] . '</option>';
-                            }
-                            ?>
-                        </select>
+                                // Display each municipalities in a dropdown option
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo '<option value="' . $row['outcomeId'] . '">' . $row['outcome'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                DateDied 
-                <div class="row mb-3">
-                    <label for="" class='col-sm-3 col-form-label'>Date Died</label>
-                    <div class="col-sm-6">
-                        <input type="date" class='form-control' name='dateDied' value='<?php echo $dateDied; ?>'>
-                    </div>
-                </div> -->
+                    DateDied 
+                    <div class="row mb-3">
+                        <label for="" class='col-sm-3 col-form-label'>Date Died</label>
+                        <div class="col-sm-6">
+                            <input type="date" class='form-control' name='dateDied' value='<?php echo $dateDied; ?>'>
+                        </div>
+                    </div> -->
 
                         <?php
                         if (!empty($successMessage)) {
                             echo "
-                    <div class='row mb-3'>
-                    <div class='offset-sm-3 col-sm-6'>
-                    <div class='alert alert-success alert-dimissible fade show' role='alert'>
-                    <strong>$successMessage</strong>
-                    <button type = 'button' class = 'btn-close' data-bs-dismissible = 'alert' aria-label = 'close'></button>
-                    </div>
-                    </div>
-                    </div>
-                    ";
+                        <div class='row mb-3'>
+                        <div class='offset-sm-3 col-sm-6'>
+                        <div class='alert alert-success alert-dimissible fade show' role='alert'>
+                        <strong>$successMessage</strong>
+                        <button type = 'button' class = 'btn-close' data-bs-dismissible = 'alert' aria-label = 'close'></button>
+                        </div>
+                        </div>
+                        </div>
+                        ";
                         }
                         ?>
                         <div class="row mb-3">
