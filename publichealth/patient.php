@@ -177,6 +177,7 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
             <table class='table'>
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Gender</th>
@@ -204,14 +205,15 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
 
                     $result = $con->query($sql);
                     // check if there is data in the table
-                    if (!$result) {-  
-                        die('Invalid Query: ');
+                    if (!$result) {
+                        -die('Invalid Query: ');
                     }
 
                     while ($row = $result->fetch_object()) {
                         // <td>$row->outcome</td>
                         echo "
                         <tr>
+                        <td>$row->patientId</td>
                         <td>$row->firstName</td>
                         <td>$row->lastName</td>
                         <td>$row->gender</td>
