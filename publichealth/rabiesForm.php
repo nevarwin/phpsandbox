@@ -94,6 +94,42 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
         </div>
+        <div class="container my-5">
+            <div class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <?php
+                    // Determine the current page number and the starting record for the page
+                    if (isset($_GET['page'])) {
+                        $currentPage = $_GET['page'];
+                    } else {
+                        $currentPage = 1;
+                    }
+                    $startRecord = ($currentPage - 1) * $recordsPerPage;
+                    // Add links to navigate between the pages
+                    $totalPages = ceil($totalRecords / $recordsPerPage);
+                    if ($totalPages > 1) {
+                        if ($currentPage > 1) {
+                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage - 1) . "\">Previous</a>";
+                        }
+                        // old code with class
+                        // if ($currentPage > 1) {
+                        //     echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
+                        // }
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                            if ($i == $currentPage) {
+                                echo "<li class='page-item active'><a class='page-link'>" . $i . "</a></li>";
+                            } else {
+                                echo "<li class='page-item'><a class='page-link' href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                            }
+                        }
+                        if ($currentPage < $totalPages) {
+                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage + 1) . "\">Next</a>";
+                        }
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
         <div class="container my-5 overflow-auto" style="max-height: calc(100vh - 100px); overflow-y: auto;">
             <h2>Admins</h2>
             <a href=" /phpsandbox/publichealth/rabiesForm-create.php" class='btn btn-primary' role="button">Add New Rabies Form</a>
@@ -161,43 +197,9 @@ $startRecord = ($currentPage - 1) * $recordsPerPage;
                 </tbody>
             </table>
         </div>
-        <div class="container my-5">
-            <div class="d-flex justify-content-center">
-                <ul class="pagination">
-                    <?php
-                    // Determine the current page number and the starting record for the page
-                    if (isset($_GET['page'])) {
-                        $currentPage = $_GET['page'];
-                    } else {
-                        $currentPage = 1;
-                    }
-                    $startRecord = ($currentPage - 1) * $recordsPerPage;
-                    // Add links to navigate between the pages
-                    $totalPages = ceil($totalRecords / $recordsPerPage);
-                    if ($totalPages > 1) {
-                        if ($currentPage > 1) {
-                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage - 1) . "\">Previous</a>";
-                        }
-                        // old code with class
-                        // if ($currentPage > 1) {
-                        //     echo "<li class='page-item disabled'> <a class='page-link' aria-disabled='true' tabindex='-1' href=\"?page=" . ($currentPage - 1) . "\">Previous</a></li>";
-                        // }
-                        for ($i = 1; $i <= $totalPages; $i++) {
-                            if ($i == $currentPage) {
-                                echo "<li class='page-item active'><a class='page-link'>" . $i . "</a></li>";
-                            } else {
-                                echo "<li class='page-item'><a class='page-link' href=\"?page=" . $i . "\">" . $i . "</a></li>";
-                            }
-                        }
-                        if ($currentPage < $totalPages) {
-                            echo "<li class='page-item'><a class='page-link' href=\"?page=" . ($currentPage + 1) . "\">Next</a>";
-                        }
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
+
     </div>
+
     <!-- Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-TTTUxJ33FLw0+wD/b5r5QUNl5LdJKT7GZZkpu0NfAW32+MBu+jv+3q7Vbe12lFH0" crossorigin="anonymous"></script>
