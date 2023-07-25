@@ -15,6 +15,8 @@
             <li><?= $subject ?></li>
         <?php endforeach; ?>
     </ol>
+
+    <script src="index.js"></script>
 </body>
 
 </html>
